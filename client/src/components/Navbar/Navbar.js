@@ -4,9 +4,36 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import AutoGraphIcon from '@mui/icons-material/AutoGraph'
 import {Box, Paper} from "@mui/material"
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom'
+import { styled } from '@mui/system'
+
+
+const MainContainer = styled(Box)({
+    height: '100vh',
+    overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+})
+
+const ContentContainer = styled(Box)({
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+})
+
+const NavigationContainer = styled(Paper)({
+    width: '75%',
+    margin: 'auto',
+    marginTop: 2,
+    position: 'fixed',
+    bottom: 0,
+    zIndex: 1000
+})
 
 
 
@@ -36,11 +63,11 @@ export default function Navbar() {
     }
 
     return (
-        <Box display="flex" flexDirection='column' justifyContent="flex-end" height="100vh" alignItems="center">
-            <Box flexGrow={1} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+        <MainContainer>
+            <ContentContainer>
                 <Outlet />
-            </Box>
-            <Paper sx={{ width: '75%', margin: 'auto', mt: 2 }} elevation={3}>
+            </ContentContainer>
+            <NavigationContainer elevation={3}>
                 <BottomNavigation value={select} onChange={handleChange} sx={{ width: '100%' }}>
                     <BottomNavigationAction
                         label="Dashboard"
@@ -55,20 +82,13 @@ export default function Navbar() {
                         to="/budget"
                     />
                     <BottomNavigationAction
-                        label="Data"
-                        value="data"
-                        icon={<AutoGraphIcon />}
-                        to="/data"
-                    />
-                    <BottomNavigationAction
                         label="Me"
                         value="me"
                         icon={<SentimentSatisfiedAltIcon />}
                         to="/user"
                     />
                 </BottomNavigation>
-            </Paper>
-        </Box>
-
-    );
+            </NavigationContainer>
+        </MainContainer>
+    )
 }
