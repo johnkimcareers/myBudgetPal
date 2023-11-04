@@ -4,7 +4,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import {Box, Paper} from "@mui/material"
+import {Box, Paper} from '@mui/material'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { styled } from '@mui/system'
 
@@ -45,20 +45,20 @@ export default function Navbar() {
         setSelect(newValue)
         switch(newValue) {
             case 'dashboard':
-                navigate("/");
-                break;
+                navigate('/')
+                break
             case 'addBudget':
-                navigate("/budget");
-                break;
+                navigate('/budget')
+                break
             case 'data':
-                navigate("/data");
-                break;
+                navigate('/data')
+                break
             case 'me':
-                navigate("/userInfo");
-                break;
+                navigate('/userInfo')
+                break
             default:
-                navigate("/");
-                break;
+                navigate('/')
+                break
         }
     }
 

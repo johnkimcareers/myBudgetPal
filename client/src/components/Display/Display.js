@@ -1,7 +1,7 @@
-import React from 'react';
-import {RadialBarChart, RadialBar, Tooltip, Legend, PolarAngleAxis} from 'recharts';
-import {Typography} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import React from 'react'
+import {RadialBarChart, RadialBar, Tooltip, Legend, PolarAngleAxis} from 'recharts'
+import {Typography} from '@mui/material'
+import { styled } from '@mui/material/styles'
 
 const DashboardTitle = styled(Typography)(({ theme }) => ({
     fontWeight: theme.typography.fontWeightBold,
@@ -82,7 +82,7 @@ function RadialBudgetChart() {
                 <Legend iconSize={30} layout="vertical" verticalAlign="middle" wrapperStyle={{ position: 'absolute', left: '500px', top: '0px' }} />
             </RadialBarChart>
         </div>
-    );
+    )
 }
 
-export default RadialBudgetChart;
+export default RadialBudgetChart
