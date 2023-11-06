@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {getExpenses, addExpense} from '../../features/expenses/expenseSlice'
+import { addExpense} from '../../features/expenses/expenseSlice'
 import {useEffect, useState} from 'react'
 import {Box, dividerClasses, List, ListItem, ListItemText, Paper, paperClasses, Typography} from '@mui/material'
 import {styled} from '@mui/system'
@@ -43,11 +43,11 @@ const StyledListItemText = styled(ListItemText)({
 export default function Budget() {
     const dispatch = useDispatch()
 
-    const [isAddModalOpen, setAddModalOpen] = useState(false)
+    const [isAddModalOpen, setAddModalOpen] = useState(null)
     const [isEditModalOpen, setEditModalOpen] = useState(false)
     const [currentExpenseForEdit, setCurrentExpenseForEdit] = useState(null)
 
-    let { expenses } = useSelector((state) => state.expenses)
+    let { expenses }  = useSelector((state) => state.expenses)
 
     // const date = new Date().toISOString().split('T')[0]
     const date = '2023-11-03'
@@ -56,16 +56,15 @@ export default function Budget() {
     })
     const foodExpenses = expenses.filter(expense => expense.type === 'Food')
     const funExpenses = expenses.filter(expense => expense.type === 'Fun')
-    const foodTotal = foodExpenses.reduce((accumulator, food) => accumulator + food.amount, 0).toFixed(2)
-    const funTotal = funExpenses.reduce((accumulator, fun) => accumulator + fun.amount, 0).toFixed(2)
+    const foodTotal = foodExpenses.reduce((accumulator, food) => accumulator + food.amount, 0)
+    const funTotal = funExpenses.reduce((accumulator, fun) => accumulator + fun.amount, 0)
 
     useEffect(() => {
-        dispatch(getExpenses)
     }, [dispatch])
 
+
     const handleAddModalToggle = () => {
-        setAddModalOpen(!isAddModalOpen)
-        console.log(isAddModalOpen)
+        setAddModalOpen(null)
     }
     // const openEditModal = (expense) => {
     //     setCurrentExpenseForEdit(expense)
@@ -80,14 +79,17 @@ export default function Budget() {
     return (
         <>
             <ComponentTitle>Budget</ComponentTitle>
+
             <ComponentHeading>Food</ComponentHeading>
             <ExpenseList expenses={foodExpenses}/>
-            <AddButton type='Food' onClick={handleAddModalToggle}/>
-            <AddModal isOpen={isAddModalOpen} onClose={handleAddModalToggle} type='Food'></AddModal>
+            <AddButton type='Food' onClick={() => setAddModalOpen('Food')}/>
+            <AddModal isOpen={isAddModalOpen === 'Food'} onClose={handleAddModalToggle} type='Food' date={date}></AddModal>
             <ComponentSubHeading>Total: ${foodTotal}</ComponentSubHeading>
+
             <ComponentHeading>Fun</ComponentHeading>
             <ExpenseList expenses={funExpenses}/>
-            <AddButton type='Fun'/>
+            <AddButton type='Fun' onClick={() => setAddModalOpen('Fun')}/>
+            <AddModal isOpen={isAddModalOpen === 'Fun'} onClose={handleAddModalToggle} type='Fun' date={date}></AddModal>
             <ComponentSubHeading>Total: ${funTotal}</ComponentSubHeading>
         </>
     )
@@ -120,7 +122,7 @@ const ExpenseList = ({expenses}) => {
                         }>
                             <StyledListItemText
                                 primary={expense.description}
-                                secondary={`$${expense.amount.toFixed(2)} - ${expense.date}`}
+                                secondary={`$${expense.amount} - ${expense.date}`}
                             />
                         </StyledListItem>
                     </StyledPaper>

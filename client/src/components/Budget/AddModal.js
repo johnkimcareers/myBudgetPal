@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/system';
-import { ComponentTitle, ComponentHeading, ComponentSubHeading} from '../../styles/theme'
+import { ComponentTitle} from '../../styles/theme'
+import {addExpense} from "../../features/expenses/expenseSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 
 const StyledBox = styled(Box)({
@@ -20,9 +21,35 @@ const StyledBox = styled(Box)({
 })
 
 
-export default function AddModal({isOpen, onClose, type}) {
-    const date = new Date().toISOString().split('T')[0]
+export default function AddModal({isOpen, onClose, type, date}) {
+    const dispatch = useDispatch()
+    const { expenses } = useSelector(state => state.expenses)
+    const newId = expenses.reduce((max, obj) => obj.id > max ? obj.id : max, expenses[0].id) + 1
 
+    const [expenseName, setExpenseName] = useState('')
+    const [expenseAmount, setExpenseAmount] = useState(0)
+
+    const handleNameChange = (e) => {
+        setExpenseName(e.target.value)
+    }
+
+    const handleAmountChange = (e) => {
+        const number = parseFloat(e.target.value)
+        setExpenseAmount(number)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const expenseData = {
+            id: newId,
+            description: expenseName,
+            amount: parseFloat(expenseAmount),
+            type: type,
+            date: date
+        }
+        dispatch(addExpense(expenseData))
+        onClose()
+    }
     return (
         <div>
             <Modal
@@ -39,26 +66,24 @@ export default function AddModal({isOpen, onClose, type}) {
                         component='form'
                         noValidate
                         autoComplete='off'
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            // Extract form data and perform your 'add' action here
-                            // You can use a new state to handle form inputs
-                             // Close the modal upon submission
-                        }}
+                        onSubmit={handleSubmit}
                     >
                         {/* Form Inputs */}
                         <TextField
                             label='Expense Name'
+                            value={expenseName}
+                            onChange={handleNameChange}
                             fullWidth
                             margin='normal'
                         />
                         <TextField
                             label='Amount'
-                            type='number'
+                            value={expenseAmount}
+                            onChange={handleAmountChange}
                             fullWidth
                             margin='normal'
+                            type='number'
                         />
-                        {/* Add other form fields as needed */}
 
                         <Button type='submit' variant='contained'>
                             Add Expense
