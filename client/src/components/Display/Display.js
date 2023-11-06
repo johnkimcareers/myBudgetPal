@@ -2,30 +2,7 @@ import React from 'react'
 import {RadialBarChart, RadialBar, Tooltip, Legend, PolarAngleAxis} from 'recharts'
 import {Typography} from '@mui/material'
 import { styled } from '@mui/material/styles'
-
-const DashboardTitle = styled(Typography)(({ theme }) => ({
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.h4.fontSize,
-    color: '#8884d8',
-    marginBottom: theme.spacing(2),
-    display: 'inline-block',
-}))
-
-const TotalBudget = styled(Typography)(({ theme }) => ({
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.h5.fontSize,
-    color: '#82ca9d',
-    marginBottom: theme.spacing(1),
-    display: 'block',
-}))
-
-const AmountSpent = styled(Typography)(({ theme }) => ({
-    fontWeight: theme.typography.fontWeightMedium,
-    fontSize: theme.typography.h6.fontSize,
-    color: theme.palette.primary.main,
-    marginBottom: theme.spacing(2),
-    display: 'block',
-}))
+import { ComponentTitle, ComponentHeading, ComponentSubHeading } from "../../styles/theme";
 
 const width = 600
 const height = 600
@@ -52,18 +29,18 @@ data.forEach(item => {
     item.percentageUsed = Math.round((item.value / item.totalBudget) * 100)
 })
 
-function RadialBudgetChart() {
+export default function Display() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <DashboardTitle variant="h4" component="h1">
+            <ComponentTitle variant="h4" component="h1">
                 myBudgetPal
-            </DashboardTitle>
-            <TotalBudget>
+            </ComponentTitle>
+            <ComponentHeading>
                 Total: ${totalBudget}
-            </TotalBudget>
-            <AmountSpent>
+            </ComponentHeading>
+            <ComponentSubHeading>
                 Spent: ${totalSpent}
-            </AmountSpent>
+            </ComponentSubHeading>
 
             <RadialBarChart
                 width={width}
@@ -75,7 +52,6 @@ function RadialBudgetChart() {
                 barSize={60}
                 data={data}
             >
-                {/* Use maxAngle to depict the percentage of budget used */}
                 <RadialBar background dataKey="percentageUsed" label={{ position: 'insideStart', fill: '#fff', dataKey: 'value' }}/>
                 <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                 <Tooltip />
@@ -84,5 +60,3 @@ function RadialBudgetChart() {
         </div>
     )
 }
-
-export default RadialBudgetChart

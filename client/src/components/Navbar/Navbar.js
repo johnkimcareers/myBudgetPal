@@ -8,14 +8,12 @@ import {Box, Paper} from '@mui/material'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { styled } from '@mui/system'
 
-
 const MainContainer = styled(Box)({
     height: '100vh',
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
 })
 
 const ContentContainer = styled(Box)({
@@ -23,7 +21,10 @@ const ContentContainer = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start',
+    width: '75%',
+    overflowY: 'auto',
+    paddingBottom: '40px'
 })
 
 const NavigationContainer = styled(Paper)({
@@ -32,10 +33,8 @@ const NavigationContainer = styled(Paper)({
     marginTop: 2,
     position: 'fixed',
     bottom: 0,
-    zIndex: 1000
+    zIndex: 1000,
 })
-
-
 
 export default function Navbar() {
     const [select, setSelect] = React.useState('dashboard')
@@ -64,7 +63,7 @@ export default function Navbar() {
 
     return (
         <MainContainer>
-            <ContentContainer>
+            <ContentContainer >
                 <Outlet />
             </ContentContainer>
             <NavigationContainer elevation={3}>
