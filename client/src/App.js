@@ -3,7 +3,7 @@ import React from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Budget from './components/Budget/Budget'
 import Display from './components/Display/Display'
-import UserInfo from './components/UserInfo/UserInfo'
+import Me from './components/Me/Me'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 
@@ -15,7 +15,7 @@ function App() {
                 <Route path="/" element={<Navbar />}>
                     <Route index element={<Display />} />
                     <Route path="/budget" element={<Budget />} />
-                    <Route path="/userInfo" element={<UserInfo />} />
+                    <Route path="/userInfo" element={<Me />} />
                 </Route>
             </Routes>
         </BrowserRouter>
