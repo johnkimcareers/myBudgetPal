@@ -12,6 +12,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import AddModal from './AddModal'
 import EditModal from './EditModal'
 import DateNavigator from "./DateNavigator";
+import {deleteExpenseAsync, fetchExpensesAsync} from "../../features/expenses/expenseThunks";
 
 const StyledList = styled(List)({
     component: 'div',
@@ -59,6 +60,7 @@ export default function Budget() {
     const funTotal = funExpenses.reduce((accumulator, fun) => accumulator + fun.amount, 0)
 
     useEffect(() => {
+        dispatch(fetchExpensesAsync())
     }, [dispatch])
 
     const handleAddModalToggle = () => {
@@ -101,7 +103,7 @@ const ExpenseList = ({expenses}) => {
 
     const handleDelete = (expense) => {
         console.log(expense)
-        dispatch(deleteExpense(expense.id))
+        dispatch(deleteExpenseAsync(expense.id))
     }
 
     return (

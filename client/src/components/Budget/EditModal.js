@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import { ComponentTitle} from '../../styles/theme'
 import {addExpense, updateExpense} from "../../features/expenses/expenseSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {updateExpenseAsync} from "../../features/expenses/expenseThunks";
 
 
 const StyledBox = styled(Box)({
@@ -49,7 +50,8 @@ export default function EditModal({isOpen, onClose, selectedExpense}) {
             description: description,
             amount: parseFloat(amount),
         }
-        dispatch(updateExpense(expenseData))
+        const expenseId = expenseData.id
+        dispatch(updateExpenseAsync({expenseId, expenseData}))
         onClose()
     }
     return (

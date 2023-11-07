@@ -1,15 +1,16 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const expenseRoutes = require('./routes/expense.routes')
+const expenseRoutes = require('./expense-service/src/routes/expense.routes')
+const cors = require('cors');
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const app = express()
+app.use(cors())
 app.use(bodyParser.json())
 
 const url = process.env.MONGODB_URI
-
 
 mongoose.connect(url, {
     useNewUrlParser: true,

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
-import { styled } from '@mui/system';
+import { Modal, Box, Typography, TextField, Button } from '@mui/material'
+import { styled } from '@mui/system'
 import { ComponentTitle} from '../../styles/theme'
-import {addExpense} from "../../features/expenses/expenseSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {addExpense} from "../../features/expenses/expenseSlice"
+import {useDispatch, useSelector} from "react-redux"
+import { addExpenseAsync } from "../../features/expenses/expenseThunks";
 
 
 const StyledBox = styled(Box)({
@@ -24,7 +25,7 @@ const StyledBox = styled(Box)({
 export default function AddModal({isOpen, onClose, type, date}) {
     const dispatch = useDispatch()
     const { expenses } = useSelector(state => state.expenses)
-    const newId = expenses.reduce((max, obj) => obj.id > max ? obj.id : max, expenses[0].id) + 1
+    const newId = expenses.length ? expenses.reduce((max, obj) => obj.id > max ? obj.id : max, expenses[0].id) + 1 : 1
 
     const [expenseName, setExpenseName] = useState('')
     const [expenseAmount, setExpenseAmount] = useState(0)
@@ -47,7 +48,7 @@ export default function AddModal({isOpen, onClose, type, date}) {
             type: type,
             date: date
         }
-        dispatch(addExpense(expenseData))
+        dispatch(addExpenseAsync(expenseData))
         onClose()
     }
     return (
