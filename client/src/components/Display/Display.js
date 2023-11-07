@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {RadialBarChart, RadialBar, Tooltip, Legend, PolarAngleAxis} from 'recharts'
 import {Typography} from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ComponentTitle, ComponentHeading, ComponentSubHeading } from "../../styles/theme";
+import {useDispatch, useSelector} from "react-redux";
 
-const width = 600
-const height = 600
+
 const data = [
     {
         name: 'Food',
@@ -16,20 +16,36 @@ const data = [
     {
         name: 'Fun',
         value: 50,
-        totalBudget: 120,
+        totalBudget: 100,
         fill: '#82ca9d',
     },
 ]
 
-const totalBudget = data.reduce((accumulator, currentValue, index, ) => accumulator + data[index].totalBudget,  0)
-const totalSpent = data.reduce((accumulator, currentValue, index, ) => accumulator + data[index].value,  0)
-
-// Calculate the percentage of the budget used for each category
-data.forEach(item => {
-    item.percentageUsed = Math.round((item.value / item.totalBudget) * 100)
-})
 
 export default function Display() {
+    const width = 600
+    const height = 600
+
+    const dispatch = useDispatch()
+
+    let { expenses }  = useSelector((state) => state.expenses)
+
+    const foodExpenses = expenses.filter(expense => expense.type === 'Food')
+    const funExpenses = expenses.filter(expense => expense.type === 'Fun')
+    const foodTotal = foodExpenses.reduce((accumulator, food) => accumulator + food.amount, 0)
+    const funTotal = funExpenses.reduce((accumulator, fun) => accumulator + fun.amount, 0)
+
+    data[0].value = foodTotal
+    data[1].value = funTotal
+
+    const totalBudget = data.reduce((accumulator, currentValue, index, ) => accumulator + data[index].totalBudget,  0)
+    const totalSpent = data.reduce((accumulator, currentValue, index, ) => accumulator + data[index].value,  0)
+
+    data.forEach(item => {
+        item.percentageUsed = Math.round((item.value / item.totalBudget) * 100)
+    })
+    console.log(data)
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <ComponentTitle variant="h4" component="h1">
@@ -52,9 +68,10 @@ export default function Display() {
                 barSize={60}
                 data={data}
             >
-                <RadialBar background dataKey="percentageUsed" label={{ position: 'insideStart', fill: '#fff', dataKey: 'value' }}/>
-                <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
-                <Tooltip />
+                <PolarAngleAxis type="number" domain={[0,100]} angleAxisId={0} tick={false} />
+                <PolarAngleAxis type="number" domain={[0,100]} angleAxisId={1} tick={false} />
+                <RadialBar background dataKey="percentageUsed"  angleAxisId={0} data={[data[0]]} label={{ position: 'insideStart', fill: '#fff', dataKey: 'value' }}/>
+                <RadialBar background dataKey="percentageUsed"  angleAxisId={1} data={[data[1]]} label={{ position: 'insideStart', fill: '#fff', dataKey: 'value' }}/>
                 <Legend iconSize={30} layout="vertical" verticalAlign="middle" wrapperStyle={{ position: 'absolute', left: '500px', top: '0px' }} />
             </RadialBarChart>
         </div>

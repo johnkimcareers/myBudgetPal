@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addExpense} from '../../features/expenses/expenseSlice'
+import {addExpense, deleteExpense} from '../../features/expenses/expenseSlice'
 import {useEffect, useState} from 'react'
 import {Box, dividerClasses, List, ListItem, ListItemText, Paper, paperClasses, Typography} from '@mui/material'
 import {styled} from '@mui/system'
@@ -9,7 +9,9 @@ import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import AddModal from "./AddModal";
+import AddModal from './AddModal'
+import EditModal from './EditModal'
+import DateNavigator from "./DateNavigator";
 
 const StyledList = styled(List)({
     component: 'div',
@@ -44,13 +46,10 @@ export default function Budget() {
     const dispatch = useDispatch()
 
     const [isAddModalOpen, setAddModalOpen] = useState(null)
-    const [isEditModalOpen, setEditModalOpen] = useState(false)
-    const [currentExpenseForEdit, setCurrentExpenseForEdit] = useState(null)
 
     let { expenses }  = useSelector((state) => state.expenses)
+    const date = useSelector((state) => state.day)
 
-    // const date = new Date().toISOString().split('T')[0]
-    const date = '2023-11-03'
     expenses = expenses.filter(expense => {
         return expense.date === date
     })
@@ -62,23 +61,15 @@ export default function Budget() {
     useEffect(() => {
     }, [dispatch])
 
-
     const handleAddModalToggle = () => {
         setAddModalOpen(null)
     }
-    // const openEditModal = (expense) => {
-    //     setCurrentExpenseForEdit(expense)
-    //     setEditModalOpen(true)
-    // };
-    //
-    // const closeEditModal = () => {
-    //     setCurrentExpenseForEdit(null)
-    //     setEditModalOpen(false)
-    // };
 
     return (
         <>
             <ComponentTitle>Budget</ComponentTitle>
+
+            <DateNavigator></DateNavigator>
 
             <ComponentHeading>Food</ComponentHeading>
             <ExpenseList expenses={foodExpenses}/>
@@ -96,44 +87,54 @@ export default function Budget() {
 }
 
 const ExpenseList = ({expenses}) => {
-    const handleEdit = (expense) => {
-        console.log(expense)
+    const dispatch = useDispatch()
+    const [isEditModalOpen, setEditModalOpen] = useState(false)
+    const [selectedExpense, setSelectedExpense] = useState({})
+    const openEditModal = (expense) => {
+        setSelectedExpense(expense)
+        setEditModalOpen(true)
+    }
+
+    const closeEditModal = () => {
+        setEditModalOpen(false)
     }
 
     const handleDelete = (expense) => {
-
+        console.log(expense)
+        dispatch(deleteExpense(expense.id))
     }
 
-
     return (
-        <StyledList>
-            {expenses.map(expense => {
-                return (
-                    <StyledPaper elevation={3}>
-                        <StyledListItem key={expense.id} elevation={3} secondaryAction={
-                            <>
-                                <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(expense)}>
-                                    <EditIcon />
-                                </IconButton>
-                                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(expense)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </>
-                        }>
-                            <StyledListItemText
-                                primary={expense.description}
-                                secondary={`$${expense.amount} - ${expense.date}`}
-                            />
-                        </StyledListItem>
-                    </StyledPaper>
-                    )
-            })}
-        </StyledList>
+        <>
+            <EditModal isOpen={isEditModalOpen} onClose={closeEditModal} selectedExpense={selectedExpense}/>
+            <StyledList>
+                {expenses.map(expense => {
+                    return (
+                        <StyledPaper elevation={3}>
+                            <StyledListItem key={expense.id} elevation={3} secondaryAction={
+                                <>
+                                    <IconButton edge="end" aria-label="edit" onClick={() => openEditModal(expense)}>
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(expense)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </>
+                            }>
+                                <StyledListItemText
+                                    primary={expense.description}
+                                    secondary={`$${expense.amount} - ${expense.date}`}
+                                />
+                            </StyledListItem>
+                        </StyledPaper>
+                        )
+                })}
+            </StyledList>
+        </>
         )
 }
 
 const AddButton = ({type, onClick}) => {
-
     return (
         <div>
             <IconButton aria-label='add' onClick={onClick}>
