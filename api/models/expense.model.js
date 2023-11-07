@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const expenseSchema = new mongoose.Schema({
     description: String,
     amount: Number,
     type: String,
-    date: Date,
+    date: String,
     id: Number
-});
+})
 
-const Expense = mongoose.model('Expense', expenseSchema);
+const Expense = mongoose.model('Expense', expenseSchema)
 
-module.exports = Expense;
+module.exports = Expense

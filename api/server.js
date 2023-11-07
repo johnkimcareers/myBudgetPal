@@ -2,12 +2,14 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const expenseRoutes = require('./routes/expense.routes')
-require('dotenv').config()
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const app = express()
 app.use(bodyParser.json())
 
 const url = process.env.MONGODB_URI
+
 
 mongoose.connect(url, {
     useNewUrlParser: true,
@@ -15,10 +17,9 @@ mongoose.connect(url, {
 }).then(() => {
     console.log('Connected to MongoDB')
 
-    // Setup routes
-    // app.use('/api/expenses', expenseRoutes)
+    app.use('/api/expenses', expenseRoutes)
 
-    const PORT = process.env.PORT || 3000
+    const PORT = process.env.PORT || 4000
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`)
     });
