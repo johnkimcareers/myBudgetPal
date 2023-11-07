@@ -8,6 +8,7 @@ export default function Me() {
             <p>Inspired by myFitnessPal</p>
             <p>Built on a react front-end with redux, axios, and thunk</p>
             <p>Built on a nodeJS and express back-end with mongoDB and mongoose</p>
+            <p>API is microservice structure with nats event publishing and logging (seperate services)</p>
         </div>
     )
 }

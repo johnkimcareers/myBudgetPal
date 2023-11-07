@@ -1,9 +1,11 @@
 // expense.service.js
 const Expense = require('../models/expense.model')
+const { publishEvent } = require('../nats/natsClient')
 
 const createExpense = async (data) => {
     const expense = new Expense(data)
     await expense.save()
+    publishEvent('expense.created', { id: expense.id, amount: expense.amount, category: expense.description })
     return expense
 }
 
@@ -24,6 +26,7 @@ const updateExpense = async (id, updateData) => {
 
 const deleteExpense = async (id) => {
     await Expense.findOneAndDelete({id: id})
+    publishEvent('expense.deleted', { id })
     return
 }
 
