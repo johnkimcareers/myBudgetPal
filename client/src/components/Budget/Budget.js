@@ -11,8 +11,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import AddModal from './AddModal'
 import EditModal from './EditModal'
-import DateNavigator from "./DateNavigator";
-import {deleteExpenseAsync, fetchExpensesAsync} from "../../features/expenses/expenseThunks";
+import DateNavigator from "./DateNavigator"
+import {deleteExpenseAsync, fetchExpensesAsync} from "../../features/expenses/expenseThunks"
 
 const StyledList = styled(List)({
     component: 'div',
@@ -102,7 +102,6 @@ const ExpenseList = ({expenses}) => {
     }
 
     const handleDelete = (expense) => {
-        console.log(expense)
         dispatch(deleteExpenseAsync(expense.id))
     }
 

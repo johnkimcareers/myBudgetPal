@@ -1,5 +1,5 @@
-import './App.css';
-import React from 'react';
+import './App.css'
+import React from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Budget from './components/Budget/Budget'
 import Display from './components/Display/Display'
@@ -20,7 +20,7 @@ function App() {
             </Routes>
         </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

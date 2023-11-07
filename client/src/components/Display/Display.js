@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import {RadialBarChart, RadialBar, Tooltip, Legend, PolarAngleAxis} from 'recharts'
 import {Typography} from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { ComponentTitle, ComponentHeading, ComponentSubHeading } from "../../styles/theme";
-import {useDispatch, useSelector} from "react-redux";
+import { ComponentTitle, ComponentHeading, ComponentSubHeading } from "../../styles/theme"
+import {useDispatch, useSelector} from "react-redux"
 
 
 const data = [
@@ -44,7 +44,6 @@ export default function Display() {
     data.forEach(item => {
         item.percentageUsed = Math.round((item.value / item.totalBudget) * 100)
     })
-    console.log(data)
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

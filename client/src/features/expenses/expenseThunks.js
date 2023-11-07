@@ -41,8 +41,7 @@ export const updateExpenseAsync = createAsyncThunk(
     'expenses/updateExpense',
     async ( {expenseId, expenseData} , { rejectWithValue }) => {
         try {
-            console.log(expenseId)
-            console.log(expenseData)
+
             const response = await updateExpense(expenseId, expenseData)
             return response.data
         } catch (err) {

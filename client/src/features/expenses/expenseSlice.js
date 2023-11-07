@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchExpensesAsync, addExpenseAsync, deleteExpenseAsync, updateExpenseAsync } from './expenseThunks';
+import { fetchExpensesAsync, addExpenseAsync, deleteExpenseAsync, updateExpenseAsync } from './expenseThunks'
 
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
     totals: 0,
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null
-};
+}
 
 
 const expenseSlice = createSlice({
@@ -32,52 +32,52 @@ const expenseSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchExpensesAsync.pending, (state) => {
-                state.status = 'loading';
+                state.status = 'loading'
             })
             .addCase(fetchExpensesAsync.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.expenses = action.payload;
+                state.status = 'succeeded'
+                state.expenses = action.payload
             })
             .addCase(fetchExpensesAsync.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
+                state.status = 'failed'
+                state.error = action.error.message
             })
             .addCase(addExpenseAsync.pending, (state) => {
-                state.addStatus = 'loading';
+                state.addStatus = 'loading'
             })
             .addCase(addExpenseAsync.fulfilled, (state, action) => {
-                state.expenses.push(action.payload);
-                state.addStatus = 'succeeded';
+                state.expenses.push(action.payload)
+                state.addStatus = 'succeeded'
             })
             .addCase(addExpenseAsync.rejected, (state, action) => {
-                state.addStatus = 'failed';
-                state.error = action.error.message;
+                state.addStatus = 'failed'
+                state.error = action.error.message
             })
             .addCase(deleteExpenseAsync.pending, (state) => {
-                state.deleteStatus = 'loading';
+                state.deleteStatus = 'loading'
             })
             .addCase(deleteExpenseAsync.fulfilled, (state, action) => {
-                state.expenses = state.expenses.filter(expense => expense.id !== action.payload);
-                state.deleteStatus = 'succeeded';
+                state.expenses = state.expenses.filter(expense => expense.id !== action.payload)
+                state.deleteStatus = 'succeeded'
             })
             .addCase(deleteExpenseAsync.rejected, (state, action) => {
-                state.deleteStatus = 'failed';
-                state.error = action.error.message;
+                state.deleteStatus = 'failed'
+                state.error = action.error.message
             })
             .addCase(updateExpenseAsync.pending, (state) => {
-                state.updateStatus = 'loading';
+                state.updateStatus = 'loading'
             })
             .addCase(updateExpenseAsync.fulfilled, (state, action) => {
-                const index = state.expenses.findIndex(expense => expense.id === action.payload.id);
+                const index = state.expenses.findIndex(expense => expense.id === action.payload.id)
                 if (index !== -1) {
-                    state.expenses[index] = action.payload;
+                    state.expenses[index] = action.payload
                 }
-                state.updateStatus = 'succeeded';
+                state.updateStatus = 'succeeded'
             })
             .addCase(updateExpenseAsync.rejected, (state, action) => {
-                state.updateStatus = 'failed';
-                state.error = action.error.message;
-            });
+                state.updateStatus = 'failed'
+                state.error = action.error.message
+            })
     },
 
 })

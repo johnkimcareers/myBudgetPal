@@ -18,6 +18,5 @@ export const deleteExpense = async (expenseId) => {
 
 export const updateExpense = async (expenseId, expenseData) => {
     // code to update expense
-    console.log(expenseId, expenseData)
     return await axios.put(`${API_BASE_URL}/${expenseId}`, expenseData)
 }

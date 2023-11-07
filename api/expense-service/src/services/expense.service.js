@@ -18,8 +18,6 @@ const getExpenseById = async (id) => {
 }
 
 const updateExpense = async (id, updateData) => {
-    console.log(id)
-    console.log(updateData)
     const expense = await Expense.findOneAndUpdate({id: id}, updateData, { new: true })
     return expense
 }

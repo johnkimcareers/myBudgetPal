@@ -6,23 +6,23 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import { setDay } from '../../features/day/daySlice'
 
 const DateNavigator = () => {
-    const dispatch = useDispatch();
-    const currentDate = useSelector((state) => state.day);
-    const currentDateObj = new Date(currentDate);
+    const dispatch = useDispatch()
+    const currentDate = useSelector((state) => state.day)
+    const currentDateObj = new Date(currentDate)
 
     const handlePrevDay = () => {
-        const prevDay = new Date(currentDateObj.setDate(currentDateObj.getDate() - 1)).toISOString().split('T')[0];
-        dispatch(setDay(prevDay));
-    };
+        const prevDay = new Date(currentDateObj.setDate(currentDateObj.getDate() - 1)).toISOString().split('T')[0]
+        dispatch(setDay(prevDay))
+    }
 
     const handleNextDay = () => {
-        const nextDay = new Date(currentDateObj.setDate(currentDateObj.getDate() + 1)).toISOString().split('T')[0];
-        dispatch(setDay(nextDay));
-    };
+        const nextDay = new Date(currentDateObj.setDate(currentDateObj.getDate() + 1)).toISOString().split('T')[0]
+        dispatch(setDay(nextDay))
+    }
 
     const formatDate = (date) => {
-        return date;
-    };
+        return date
+    }
 
     return (
         <div style={{ display: 'flex', alignItems: 'center' }}>

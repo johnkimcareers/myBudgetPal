@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import { Modal, Box, Typography, TextField, Button } from '@mui/material';
-import { styled } from '@mui/system';
+import React, {useEffect, useState} from 'react'
+import { Modal, Box, Typography, TextField, Button } from '@mui/material'
+import { styled } from '@mui/system'
 import { ComponentTitle} from '../../styles/theme'
-import {addExpense, updateExpense} from "../../features/expenses/expenseSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {updateExpenseAsync} from "../../features/expenses/expenseThunks";
+import {addExpense, updateExpense} from "../../features/expenses/expenseSlice"
+import {useDispatch, useSelector} from "react-redux"
+import {updateExpenseAsync} from "../../features/expenses/expenseThunks"
 
 
 const StyledBox = styled(Box)({
